@@ -79,10 +79,13 @@ public class HerkuleX {
 	
 	private ArrayList<Byte> multipleMoveData;
 	
+	private ArrayList<Integer> mIDs; 
+	
 	public HerkuleX(Serial port) {
 		mPort = port;
 		//mParent = parent;
 		multipleMoveData = new ArrayList<Byte>();
+		mIDs = new ArrayList<Integer>();
 	}
 	
 	/**
@@ -106,6 +109,30 @@ public class HerkuleX {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * @example HerkuleX_Get_IDs
+	 * 
+	 * Get connected servos'ID
+	 * 
+	 * Byte (-128~127) in Java
+	 * In terms of that Processing is running on PC,
+	 * there is no memory problem.
+	 * In this reason, this return type is Integer array.
+	 * 
+	 * @return ArrayList<Integer> - Servo IDs
+	 */
+	public ArrayList<Integer> performIDScan() {
+		mIDs.clear();
+		
+		for (int i = 0; i < 254; i++) {
+			if (getPosition(i) != -1) {
+				mIDs.add(i);
+			}
+		}
+		
+		return mIDs;
 	}
 	
 	/**
